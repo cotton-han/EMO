@@ -10,10 +10,10 @@ import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +50,10 @@ public class OneFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 //임시로 사용할 파일의 경로 생성
-                String url = "tmp_"+String.valueOf(System.currentTimeMillis())+".jpg";
-                mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));
+                //String url = "tmp_"+String.valueOf(System.currentTimeMillis())+".jpg";
+                //mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));
 
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,mImageCaptureUri);
+                intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,mImageCaptureUri);
                 startActivityForResult(intent,PICK_FROM_CAMERA);
             }
         });
@@ -74,11 +74,12 @@ public class OneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(iv_UserPhoto != null){
-                    Bundle bundle = new Bundle();
+                    /*Bundle bundle = new Bundle();
                     Bitmap bitmap = getArguments().getParcelable("data");
-                    bundle.putParcelable("data",bitmap);//비트맵 번들에 저장
-                    OneFragmentResult ofr = new OneFragmentResult();
-                    //OneFragmentResult로 화면전환&Bundle과 함께************************
+                    bundle.putParcelable("data",bitmap);//비트맵 번들에 저장*/
+
+                    Intent intent = new Intent(getActivity(),OneFragmentResult.class);
+                    startActivityForResult(intent,100); //여긴 도저히 못해먹겠다...
                 }
             }
         });
@@ -88,8 +89,8 @@ public class OneFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //if(resultCode != RESULT_OK)
-        //    return;
+        if(resultCode != 1)
+            return;
 
         switch(requestCode){
             case PICK_FROM_ALBUM:
@@ -114,7 +115,7 @@ public class OneFragment extends Fragment {
             case CROP_FROM_IMAGE:
             {
                 //크롭이 된 이후 이미지 넘겨받기
-                final Bundle extras = data.getExtras();
+                Bundle extras = data.getExtras();
 
                 String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/SmartWheel/"+System.currentTimeMillis()+".jpg";
 
