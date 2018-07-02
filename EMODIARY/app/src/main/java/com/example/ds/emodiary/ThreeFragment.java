@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by jihu0 on 2018-06-26.
- */
 
 public class ThreeFragment extends Fragment {
     public ThreeFragment() {
@@ -19,6 +16,7 @@ public class ThreeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_3, container, false);
+
         return view;
     }
 }

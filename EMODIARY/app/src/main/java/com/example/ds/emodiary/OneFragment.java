@@ -50,8 +50,8 @@ public class OneFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 //임시로 사용할 파일의 경로 생성
-                //String url = "tmp_"+String.valueOf(System.currentTimeMillis())+".jpg";
-                //mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));
+                /*String url = "tmp_"+String.valueOf(System.currentTimeMillis())+".jpg";
+                mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));*/
 
                 intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,mImageCaptureUri);
                 startActivityForResult(intent,PICK_FROM_CAMERA);
@@ -64,7 +64,7 @@ public class OneFragment extends Fragment {
             public void onClick(View v) {
                 //앨범에서 이미지 가져오기
                 Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent, PICK_FROM_ALBUM);
             }
         });
@@ -78,8 +78,11 @@ public class OneFragment extends Fragment {
                     Bitmap bitmap = getArguments().getParcelable("data");
                     bundle.putParcelable("data",bitmap);//비트맵 번들에 저장*/
 
-                    Intent intent = new Intent(getActivity(),OneFragmentResult.class);
-                    startActivityForResult(intent,100); //여긴 도저히 못해먹겠다...
+                    //OneFragmentResult로 넘어가기
+                    FragmentManager fmanager = getFragmentManager();
+                    FragmentTransaction ftrans = fmanager.beginTransaction();
+                    ftrans.add(R.id.fragment_1,new OneFragmentResult());
+                    ftrans.commit();
                 }
             }
         });
@@ -89,8 +92,8 @@ public class OneFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != 1)
-            return;
+        //if(resultCode != 1)
+        //    return;
 
         switch(requestCode){
             case PICK_FROM_ALBUM:
@@ -103,8 +106,8 @@ public class OneFragment extends Fragment {
                 Intent intent = new Intent("com.android.camera.action.CROP");
                 intent.setDataAndType(mImageCaptureUri,"image/*");
 
-                intent.putExtra("outputX",300);
-                intent.putExtra("outputY",300);
+                intent.putExtra("outputX",200);
+                intent.putExtra("outputY",200);
                 intent.putExtra("aspectX",1);
                 intent.putExtra("aspectY",1);
                 intent.putExtra("scale",true);
@@ -115,7 +118,7 @@ public class OneFragment extends Fragment {
             case CROP_FROM_IMAGE:
             {
                 //크롭이 된 이후 이미지 넘겨받기
-                Bundle extras = data.getExtras();
+                final Bundle extras = data.getExtras();
 
                 String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/SmartWheel/"+System.currentTimeMillis()+".jpg";
 

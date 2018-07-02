@@ -1,27 +1,18 @@
 package com.example.ds.emodiary;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
+
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-
-public class OneFragmentResult extends AppCompatActivity {
-
-    ImageView imageP;
-
+public class OneFragmentResult extends Fragment {
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_1_result);
-
-        imageP = findViewById(R.id.imageP);
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_1_result, container, false);
+        return view;
     }
 }
