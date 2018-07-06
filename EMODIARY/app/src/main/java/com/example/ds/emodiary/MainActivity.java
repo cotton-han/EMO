@@ -15,24 +15,35 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeResponseCallback;
+import com.kakao.usermgmt.response.model.UserProfile;
+import com.kakao.util.exception.KakaoException;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class MainActivity extends AppCompatActivity {
         Button btn;
-    private Context mContext;
-    final String TAG = "KeyHash";
+        private Context mContext;
+        final String TAG = "KeyHash";
+        private SessionCallback sessionCallback;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
+
+            mContext = getApplicationContext();
 
             btn = (Button) findViewById(R.id.loginbutton);
             SpannableString content = new SpannableString("기존 계정으로 로그인");
@@ -42,33 +53,64 @@ public class MainActivity extends AppCompatActivity {
             ActionBar bar = getSupportActionBar();
             bar.hide();
 
-            /*getHashKey(mContext);*/
-        }
 
-    /*public static String getHashKey(Context context){ //해시키 구하기 실패 ㅠㅠ
-        final String TAG = "KeyHash";
-        String keyHash = null;
-        try {
-            PackageInfo info =
-                    context.getPackageManager().getPackageInfo(context.getPackageName(),
-                            PackageManager.GET_SIGNATURES);
+            sessionCallback = new SessionCallback();
+            Session.getCurrentSession().addCallback(sessionCallback);
+            Session.getCurrentSession().checkAndImplicitOpen();
 
-            for (Signature signature:info.signatures){
-                MessageDigest md;
-                md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                keyHash = new String(Base64.encode(md.digest(), 0));
-                Log.d(TAG, keyHash);
+            PackageInfo info = null;
+            try {
+                info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+                for (Signature signature : info.signatures) {
+                    MessageDigest md = MessageDigest.getInstance("SHA");
+                    md.update(signature.toByteArray());
+                    Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e){
-            Log.e("name not found",e.toString());
         }
-        if (keyHash != null) {
-            return keyHash;
-        } else {
-            return null;
+
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)){
+            return ;
         }
-    }*/
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void request(){
+        UserManagement.requestMe(new MeResponseCallback() {
+            @Override
+            public void onSessionClosed(ErrorResult errorResult) {
+                Log.d("error", "Session Closed Error is " + errorResult.toString());
+            }
+
+            @Override
+            public void onNotSignedUp() {
+
+            }
+
+            @Override
+            public void onSuccess(UserProfile result) {
+                Toast.makeText(MainActivity.this, "사용자 이름은 " + result.getNickname(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private class SessionCallback implements ISessionCallback {
+
+        @Override
+        public void onSessionOpened() {
+            request();
+        }
+
+        @Override
+        public void onSessionOpenFailed(KakaoException exception) {
+            Log.d("error", "Session Fail Error is " + exception.getMessage().toString());
+        }
+    }
 
         //카카오버튼
         public void onKakaoButtonClicked(View view) {

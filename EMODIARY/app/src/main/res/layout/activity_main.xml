@@ -15,7 +15,7 @@
         android:layout_marginTop="80dp"
         app:srcCompat="@drawable/two" />
 
-    <Button
+    <com.kakao.usermgmt.LoginButton
         android:id="@+id/kakaobutton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
