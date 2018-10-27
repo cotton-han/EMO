@@ -38,7 +38,6 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
-import com.microsoft.projectoxford.face.samples.R;
 
 import java.security.MessageDigest;
 
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face);
+        setContentView(R.layout.activity_main);
 
         mContext = getApplicationContext();
 

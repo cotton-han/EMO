@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.microsoft.projectoxford.face.samples.R;
+import com.trois.project.emo.test.R;
 import com.trois.project.emo.test.Chatbot.Model.Chat;
 import com.trois.project.emo.test.Chatbot.Model.SectionDataModel;
 import com.trois.project.emo.test.Chatbot.Model.SingleItemModel;

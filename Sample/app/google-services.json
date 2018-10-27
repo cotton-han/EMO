@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:935650490663:android:0f07b7fdb1ef4f52",
         "android_client_info": {
-          "package_name": "com.example.ds.emodiary"
+          "package_name": "com.trois.project.emo.test"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "935650490663-1v3ij07o1bd8fi6r1a412kiocgl61l9e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.ds.emodiary",
+            "package_name": "com.trois.project.emo.test",
             "certificate_hash": "6295393b0e13dd54bd8f2a40c96c65b00a0afaad"
           }
         },

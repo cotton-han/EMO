@@ -55,8 +55,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.microsoft.projectoxford.face.FaceServiceClient;
-import com.microsoft.projectoxford.face.samples.R;
-import com.trois.*;
+import com.trois.project.emo.test.R;
 import com.trois.project.emo.test.helper.LogHelper;
 import com.trois.project.emo.test.helper.SampleApp;
 import com.trois.project.emo.test.helper.StorageHelper;

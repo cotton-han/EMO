@@ -12,13 +12,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.microsoft.projectoxford.face.samples.R;
 import com.trois.project.emo.test.Chatbot.Adapter.ChatMessageAdapter;
 import com.trois.project.emo.test.Chatbot.Model.Chat;
 import com.trois.project.emo.test.Chatbot.Model.Emotion;
 import com.trois.project.emo.test.Chatbot.Utils.Constant;
 import com.trois.project.emo.test.Chatbot.Utils.DateFormat;
-import com.trois.*;
+import com.trois.project.emo.test.R;
 
 import java.util.ArrayList;
 
